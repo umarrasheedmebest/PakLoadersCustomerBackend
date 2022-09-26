@@ -1,7 +1,7 @@
 const db= require ('../Utilities/config.db')
 
 
-class customer {
+class register {
 
 
 
@@ -16,4 +16,6 @@ class customer {
 
 }
 
+
+module.exports= register
 // login query here
