@@ -2,16 +2,18 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan')
 const path = require('path')
-
 const fs= require('fs')
+const dotenv = require("dotenv");
+
 app.use(express.json());
 
-const port = process.env.PORT || 5000;
-
+const port = process.env.PORT || 3000;
+dotenv.config();
 
 morgan.token('body', (req)=> JSON.stringify(req.body))
 morgan.token('id', (req)=> req.params.id);
 morgan.token('date', (req)=> new Date());
+
 
 let accesLogStream = fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'})
 app.use(morgan('"DATE":date  "URL":url"HTTP/:http-version" "REQUEST METHOD":method "STATUS CODE":status \
