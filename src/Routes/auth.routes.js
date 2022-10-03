@@ -2,7 +2,9 @@ const router = require('express').Router();
 
 const authController = require('../Controller/auth.controller')
 
-router.post('/login',authController.login);
+
+router.post("/sign-up/send-otp", authController.signUp);
+router.post("/verify-otp", authController.verifyOTP);
 
 
 
