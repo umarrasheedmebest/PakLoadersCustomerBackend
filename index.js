@@ -35,7 +35,22 @@ app.use('/auth', authRoute);
 
 
 
+app.use((req, res, next)=>{
+    const err = new Error("Not found");
+    err.status = 404;
+    next(err);
+});
 
+app.use((err, req, res, next)=>{
+    if(err.isJoi) err.status = 422;
+    res.status(err.status || 500);
+    res.send({
+        error: {
+            status : err.status || 500,
+            message : err.message
+        }
+    });
+})
 
 app.listen(port, ()=>{
     console.log('Server is listening at port '+ port);
