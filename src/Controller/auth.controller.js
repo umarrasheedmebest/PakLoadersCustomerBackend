@@ -1,4 +1,5 @@
 const user = require('../Model/user.model')
+const {signUpSchema,signInSchema}=require('../Utilities/validations')
 const { TWILIO_SERVICE_SID, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
 const client = require("twilio")(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, {
     lazyLoading: true
@@ -9,32 +10,97 @@ const signUp = async(req, res, next)=> {
 
     try {
 
-        const otpResponse = await client.verify.v2
+
+const data= await signUpSchema.validateAsync(req.body)
+      const data1= new user(data)
+      user.FindCredendials(data1.number, async(err,ress1)=>{
+
+        if(err){
+          next(err)
+
+        }
+        else{
+
+          if(ress1.length === 0){
+            const otpResponse = await client.verify.v2
             .services(TWILIO_SERVICE_SID)
             .verifications.create({
                 to: `${number}`,
-                channel: "sms",
+                channel: "sms", 
             });
         if(otpResponse){
-
-          const data= new user(req.body)
-
+ 
           user.signUp(data,(err,ress)=>{
 
             if(err){
+
               next(err)
             }
             else{
-              res.status(200).send(ress)         
+              res.status(200).send({data:ress.insertId})        
             }
           })
          
+         
         }
+            
+          }
+          else{
+            next(new Error("Number Already Registered"));
+            
+          }
+        }
+      })
+       
     } catch (error) {
+      console.log("log test",error);
+
         res.status(error?.status || 400).send(error?.message || 'Something went wrong!');
     }
 } 
 
+
+const signIn = async(req, res, next)=> {
+  const { number } = req.body;
+
+  try {
+
+    const data= await signInSchema.validateAsync(req.body)
+    const data1= new user(data)
+
+    user.FindCredendials(data1.number, async(err,ress1)=>{
+
+      if(err){
+        next(err)
+
+      }
+      else{
+
+        
+          const otpResponse = await client.verify.v2
+          .services(TWILIO_SERVICE_SID)
+          .verifications.create({
+              to: `${number}`,
+              channel: "sms", 
+          });
+
+      if(otpResponse){
+
+        res.status(200).send("OTP Sent Successfully")        
+       
+      }
+          
+       
+       
+      }
+    })
+     
+  } catch (error) {
+    console.log("log test",error);
+
+      res.status(error?.status || 400).send(error?.message || 'Something went wrong!');
+  }
+} 
 const verifyOTP = async(req, res, next)=> {
     const { number, otp } = req.body;
     try {
@@ -46,7 +112,7 @@ const verifyOTP = async(req, res, next)=> {
             });
         if(verifiedResponse) {
           
-          const userId= req.body.id
+          const userId= req.params.id
 
           user.activeProfile(userId,(err,ress)=>{
             if(err){
@@ -64,5 +130,6 @@ const verifyOTP = async(req, res, next)=> {
  
 module.exports = {
   signUp,
-    verifyOTP
+    verifyOTP,
+    signIn
 }

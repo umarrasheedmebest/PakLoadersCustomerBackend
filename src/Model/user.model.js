@@ -54,9 +54,9 @@ db.query(query, data,(err,sqlresult)=>{
 user.activeProfile=(userId,result)=>{
 
     try {
-    const query=  `update into register_user set is_active=1 where id= ${userId}`
+    const query=  `update  register_user set is_active=1 where id= ${userId}`
     
-    db.query(query, data,(err,sqlresult)=>{
+    db.query(query,(err,sqlresult)=>{
         if(err){
             result(err,undefined)
         }else{
@@ -70,7 +70,28 @@ user.activeProfile=(userId,result)=>{
         result(error,undefined)
     }
     
-    
     }
+
+    user.FindCredendials=(number,result)=>{
+
+        try {
+        const query=  `SELECT register_user.id,register_user.full_name,register_user.number FROM register_user WHERE register_user.number = ${number}`
+        
+        db.query(query,(err,sqlresult)=>{
+            if(err){
+                result(err,undefined)
+            }else{
+        
+                result(undefined,sqlresult)
+            }
+        })
+        
+        } catch (error) {
+            
+            result(error,undefined)
+        }
+        
+        
+        }
 module.exports= user
 // login query here
