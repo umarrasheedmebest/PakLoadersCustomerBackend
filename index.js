@@ -10,6 +10,8 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 dotenv.config();
 
+// logs
+
 morgan.token('body', (req)=> JSON.stringify(req.body))
 morgan.token('id', (req)=> req.params.id);
 morgan.token('date', (req)=> new Date());
@@ -23,6 +25,7 @@ app.use(morgan('"DATE":date  "URL":url"HTTP/:http-version" "REQUEST METHOD":meth
 // routes here
 
 const authRoute = require('./src/Routes/auth.routes')
+const userRoute = require('./src/Routes/user.routes')
 
 app.get('/',(req,res)=>{
     res.json({message: "Working"});
@@ -32,8 +35,10 @@ app.get('/',(req,res)=>{
 // middlewares
 
 app.use('/auth', authRoute);
+app.use('/user', userRoute);
 
 
+// Error Handlers
 
 app.use((req, res, next)=>{
     const err = new Error("Not found");
@@ -51,6 +56,8 @@ app.use((err, req, res, next)=>{
         }
     });
 })
+
+
 
 app.listen(port, ()=>{
     console.log('Server is listening at port '+ port);
