@@ -5,7 +5,6 @@ class user {
 
     full_name;
     number;
-    secondary_number;
     user_image;
     is_active;
     is_deleted;
@@ -17,15 +16,12 @@ class user {
 
         this.full_name = obj.full_name,
             this.number = obj.number,
-            this.secondary_number = obj.secondary_number,
             this.user_image = obj.user_image,
             this.is_active = false,
             this.is_deleted = false,
             this.deleted_at = obj.deleted_at || null,
             this.created_at = obj.created_at || new Date().toISOString().replace("T", " ").split(".")[0],
             this.updated_at = obj.updated_at || null
-
-
 
     }
 
@@ -144,4 +140,30 @@ user.getUser = (userId, result) => {
     }
 
 }
+
+
+
+user.updateUser = (data,userId, result) => {
+
+    try {
+        console.log(data);
+
+        const query = `update register_user set `+Object.keys(data).map((key) => `${key} = ?`).join(", ") +` , updated_at='${new Date().toISOString().replace("T"," ").split(".")[0]}' where id=${userId} ` 
+        const parameters = Object.values(data).map(value => `${value}`)
+        db.query(query, parameters,(err, sqlresult) => {
+            if (err) {
+                result(err, undefined)
+            } else {
+
+                result(undefined, sqlresult)
+            }
+        })
+console.log(query);
+    } catch (error) {
+
+        result(error, undefined)
+    }
+
+}
+
 module.exports = user
