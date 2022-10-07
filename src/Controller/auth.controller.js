@@ -1,5 +1,7 @@
 const user = require('../Model/user.model')
 
+const { signAccessToken, signRefreshToken } = require('./../Utilities/jwt')
+
 const { signUpSchema, signInSchema } = require('../Utilities/validations')
 
 const { TWILIO_SERVICE_SID, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
@@ -137,7 +139,7 @@ const verifyOTP = async (req, res, next) => {
 
       const userId = req.params.id
 
-      user.activeProfile(userId, (err, response) => {
+      user.activeProfile(userId, async (err, response) => {
         if (err) {
 
           next(err)
@@ -145,11 +147,20 @@ const verifyOTP = async (req, res, next) => {
         }
 
         else {
-          res.status(200).send(`OTP verified successfully!`);
+
+          const accessToken = await signAccessToken(userId);
+
+          const refreshToken = await signRefreshToken(userId);
+
+          res.cookie('accessToken', `bearer ${accessToken}`, {
+              httpOnly: false,
+              path:  '/', 
+              maxAge: 60*60*60*1000
+          });
+
+          res.status(200).send({message:"OTP Send Successfully",response,refreshToken:`bearer ${refreshToken}`});
         }
-
       })
-
     }
   }
 

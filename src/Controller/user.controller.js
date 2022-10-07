@@ -56,8 +56,40 @@ const getUser=(req,res,next)=>{
     
     }
 
+
+    
+const updateUser=(req,res,next)=>{
+
+    try {
+        
+    const userId=req.params.id
+    const data= req.body
+    user.updateUser(data,userId,(err,userResponse)=>{
+    
+        if(err){
+            next(err)
+        }
+        else{
+    
+            res.status(200).send("User Updated Successfully")
+        }
+    
+    })
+    
+    
+    } catch (error) {
+    
+        next(error)
+        
+    }
+    
+    }
+
+
+    
 module.exports={
 
     deleteUser,
-    getUser
+    getUser,
+    updateUser
 }
