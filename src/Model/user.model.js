@@ -166,4 +166,19 @@ console.log(query);
 
 }
 
+user.userProfileImage = (data,id, result)=> {
+    try {
+        const query = `UPDATE register_user SET user_image = '${data}' WHERE id=${id}`;
+        db.query(query, (err, sqlresult)=> {
+            if(err){
+                result(err, undefined);
+            } else {
+                result(undefined, sqlresult);
+            }
+        })
+    } catch (error) {
+        result(error, undefined);
+    }
+}
+
 module.exports = user

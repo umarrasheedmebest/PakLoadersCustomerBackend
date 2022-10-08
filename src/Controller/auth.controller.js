@@ -42,7 +42,7 @@ const signUp = async (req, res, next) => {
 
           if (otpResponse) {
 
-            user.signUp(data, (err, signUpResponse) => {
+            user.signUp(data1, (err, signUpResponse) => {
 
               if (err) {
 
@@ -121,7 +121,7 @@ const signIn = async (req, res, next) => {
 
 
 
-const verifyOTP = async (req, res, next) => {
+const signUpVerifyOTP = async (req, res, next) => {
 
   const { number, otp } = req.body;
 
@@ -158,7 +158,7 @@ const verifyOTP = async (req, res, next) => {
               maxAge: 60*60*60*1000
           });
 
-          res.status(200).send({message:"OTP Send Successfully",response,refreshToken:`bearer ${refreshToken}`});
+          res.status(200).send({message:"OTP Verified Successfully",response,refreshToken:`bearer ${refreshToken}`});
         }
       })
     }
@@ -175,8 +175,51 @@ const verifyOTP = async (req, res, next) => {
 
 
 
+const verifyOTP = async (req, res, next) => {
+
+  const { number, otp } = req.body;
+
+  try {
+
+    const verifiedResponse = await client.verify.v2
+      .services(TWILIO_SERVICE_SID)
+      .verificationChecks.create({
+        to: `${number}`,
+        code: otp,
+      });
+
+
+    if (verifiedResponse) {
+
+      const userId = req.params.id
+
+          const accessToken = await signAccessToken(userId);
+
+          const refreshToken = await signRefreshToken(userId);
+
+          res.cookie('accessToken', `bearer ${accessToken}`, {
+              httpOnly: false,
+              path:  '/', 
+              maxAge: 60*60*60*1000
+          });
+
+          res.status(200).send({message:"OTP Verified Successfully",refreshToken:`bearer ${refreshToken}`});
+     
+    }
+  }
+
+  catch (error) {
+
+    res.status(error?.status || 400).send(error?.message || 'Something went wrong!');
+
+  }
+
+}
+
+
 module.exports = {
   signUp,
+  signUpVerifyOTP,
   verifyOTP,
   signIn
 }
