@@ -31,7 +31,7 @@ const userRoute = require('./src/Routes/user.routes')
 const imageRoute = require('./src/Routes/image.router')
 
 app.get('/',(req,res)=>{
-    res.json({message: "Working"});
+    res.json({message: "Working Node JS"});
 });
 
 

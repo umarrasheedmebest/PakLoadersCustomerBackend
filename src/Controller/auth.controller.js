@@ -92,19 +92,27 @@ const signIn = async (req, res, next) => {
       }
 
       else {
+if(Response.length === 0){
 
-        const otpResponse = await client.verify.v2
-          .services(TWILIO_SERVICE_SID)
-          .verifications.create({
-            to: `${number}`,
-            channel: "sms",
-          });
+  next(new Error("Number Not Registered"))
 
-        if (otpResponse) {
+}
+else{
+console.log(Response);
+  const otpResponse = await client.verify.v2
+  .services(TWILIO_SERVICE_SID)
+  .verifications.create({
+    to: `${number}`,
+    channel: "sms",
+  });
 
-          res.status(200).send("OTP Sent Successfully")
+if (otpResponse) {
 
-        }
+  res.status(200).send({message:"OTP Sent Successfully",ID:Response[0].id})
+
+}
+
+}
       }
     })
 
