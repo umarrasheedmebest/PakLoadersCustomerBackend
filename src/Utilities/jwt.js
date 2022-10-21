@@ -1,31 +1,27 @@
 const JWT = require("jsonwebtoken");
 
 const signAccessToken = async (userID) => {
-    return new Promise((resolve, reject)=> {
-        const payload = {
-           
-          };
-          const secret = process.env.ACCESS_TOKEN_SECRET;
-          const options = {
-            expiresIn: "30h",
-            issuer: "PakLoaders",
-            audience: userID,
-          };
-           JWT.sign(payload, secret, options, (err, token)=> {
-
-            if(err){
-                reject(new Error("Internal server error."))
-            } else {
-                resolve(token);
-            }
-          })
+  return new Promise((resolve, reject) => {
+    const payload = {};
+    const secret = process.env.ACCESS_TOKEN_SECRET;
+    const options = {
+      expiresIn: "30h",
+      issuer: "PakLoaders",
+      audience: userID,
+    };
+    JWT.sign(payload, secret, options, (err, token) => {
+      if (err) {
+        reject(new Error("Internal server error."))
+      } else {
+        resolve(token);
+      }
     })
+  })
 };
 
 const forgetPassAccessToken = (email) => {
   return new Promise((resolve, reject) => {
     const payload = {
-    
     };
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const options = {
@@ -42,29 +38,18 @@ const forgetPassAccessToken = (email) => {
   });
 };
 
-
-
 const verifyAccessToken = (req, res, next) => {
-
   if (!req.cookies.accessToken) {
-
     return next(new Error("Unauthorized error"));
   }
-
   const authHeader = req.cookies.accessToken;
   const bearerToken = authHeader.split(" ");
   const token = bearerToken[1];
-
   JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
-
     if (err) {
-
       if (err.name === "TokenExpiredError") {
-        
         if (!req.headers["authorization"])
-
           return next(new Error("Unauthorized error"));
-
         const authHeader1 = req.headers["authorization"];
         const bearerToken1 = authHeader1.split(" ");
         const token1 = bearerToken1[1];
@@ -80,7 +65,6 @@ const verifyAccessToken = (req, res, next) => {
       }
     } else {
       req.payload = payload;
-
       next();
     }
   });
@@ -95,7 +79,6 @@ const signRefreshToken = (userID) => {
       issuer: "PakLoaders",
       audience: userID,
     };
-
     JWT.sign(payload, secret, options, (err, token) => {
       if (err) {
         reject(new Error("Internal Server Error"));
