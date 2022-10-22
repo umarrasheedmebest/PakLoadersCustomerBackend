@@ -20,7 +20,7 @@ const authRoute = require('./src/Routes/auth.routes')
 const userRoute = require('./src/Routes/user.routes')
 const imageRoute = require('./src/Routes/image.router')
 app.get('/',(req,res)=>{
-    res.json({message: "Working Node JS"});
+    res.json({message: "Working Node JS!"});
 });
 // middlewares
 app.use(cookieParser());

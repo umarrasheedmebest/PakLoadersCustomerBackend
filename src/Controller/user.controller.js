@@ -14,7 +14,7 @@ const deleteUser = (req, res, next) => {
     } catch (error) {
         next(error)
     }
-}
+} 
 
 const getUser = (req, res, next) => {
     try {

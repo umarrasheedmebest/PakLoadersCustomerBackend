@@ -1,10 +1,17 @@
 const mysql = require('mysql');
 
+// const conn = mysql.createPool({
+//   host: "sql6.freemysqlhosting.net",
+//   user:"sql6528254",
+//   password:"e46YKuLSQt",
+//   database: "sql6528254",
+//   port: 3306 
+// });
 const conn = mysql.createPool({
-  host: "sql6.freemysqlhosting.net",
-  user:"sql6528254",
-  password:"e46YKuLSQt",
-  database: "sql6528254",
+  host: "localhost",
+  user:"root",
+  password:"",
+  database: "pakloaders",
   port: 3306 
 });
 conn.getConnection((err,connection)=>{
