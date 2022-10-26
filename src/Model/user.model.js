@@ -9,13 +9,16 @@ class user {
     created_at;
     updated_at;
     constructor(obj) {
+        const date = new Date().toISOString().split("T")[0];
+        const time = new Date().toLocaleTimeString().split(" ")[0];
+        const currDate = date + " " + time;
         this.full_name = obj.full_name,
             this.number = obj.number,
             this.user_image = obj.user_image,
             this.is_active = false,
             this.is_deleted = false,
             this.deleted_at = obj.deleted_at || null,
-            this.created_at = obj.created_at || new Date().toISOString().replace("T", " ").split(".")[0],
+            this.created_at = obj.created_at || currDate,
             this.updated_at = obj.updated_at || null
     }
 }

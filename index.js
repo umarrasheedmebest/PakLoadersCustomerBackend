@@ -18,7 +18,11 @@ app.use(morgan('"DATE":date  "URL":url"HTTP/:http-version" "REQUEST METHOD":meth
 // routes here
 const authRoute = require('./src/Routes/auth.routes')
 const userRoute = require('./src/Routes/user.routes')
-const imageRoute = require('./src/Routes/image.router')
+const imageRoute = require('./src/Routes/image.routes')
+const postRoute = require('./src/Routes/post.routes')
+const bidsRoute = require('./src/Routes/bids.routes')
+const ridesRoute = require('./src/Routes/rides.routes')
+
 app.get('/',(req,res)=>{
     res.json({message: "Working Node JS!"});
 });
@@ -26,10 +30,16 @@ app.get('/',(req,res)=>{
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+
 app.use("/images", express.static(path.join(__dirname, "/Images")))
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/images', imageRoute);
+app.use('/post', postRoute);
+app.use('/bids', bidsRoute);
+app.use('/rides', ridesRoute);
+
+
 // Error Handlers
 app.use((req, res, next)=>{
     const err = new Error("Not found");

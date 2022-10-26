@@ -15,7 +15,6 @@ const userProfileImage = (req, res, next) => {
         next(error)
     }
 }
-
 module.exports = {
     userProfileImage
 }
