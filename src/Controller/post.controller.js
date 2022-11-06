@@ -87,6 +87,7 @@ const singlePost = (req, res, next) => {
         next(error)
     }
 }
+
 module.exports = {
     addPost,
     cancelPost,

@@ -15,8 +15,23 @@ const acceptBid=(req,res,next)=>{
         next(error)
     }
 }
+const upcomingRide=(req,res,next)=>{
 
-acceptBid
+    try {
+        const userId= req.params.id
+        Rides.upcomingRide(userId,(err,response)=>{
+            if(err){
+                next(err)
+            }else{
+                res.status(200).send(response)
+            }
+        })
+    } catch (error){
+        next(error)
+    }
+}
+
 module.exports={
-    acceptBid
+    acceptBid,
+    upcomingRide
 }
