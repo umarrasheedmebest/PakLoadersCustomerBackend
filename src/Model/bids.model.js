@@ -22,7 +22,8 @@ class Bids {
 
 Bids.allBids=(userId,result)=>{
     try {
-        const query= `SELECT post.id,bids.bid_amount,bids.created_at,register_driver.full_name,register_driver.number,register_driver.secondary_number,
+        const query= `SELECT post.id,bids.bid_amount,bids.created_at,register_driver.full_name,register_driver.number,
+        register_driver.secondary_number,
         register_driver.driver_image,vehicles_info.name,vehicles_info.vehicle_image2,vehicles_info.vehicle_image1
         FROM bids
         LEFT JOIN register_driver
