@@ -40,7 +40,10 @@ Rides.acceptBid = (bidId, result) => {
                             result(err, undefined)
                         })
                     } else {
-                        let query = `update bids set is_active = 0 where id=${bidId}`
+                        let query = `update bids b
+                        JOIN post p 
+                        ON b.post_id=p.id
+                        set b.is_active = 0 , p.is_active= 0 where b.id= ${bidId}`
                         conn.query(query, (err, bidsResult) => {
                             if (err) {
                                 conn.rollback(() => {
