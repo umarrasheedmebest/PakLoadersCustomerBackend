@@ -15,7 +15,7 @@ class Bids {
         this.post_id = obj.post_id;
         this.bid_amount = obj.bid_amount;
         this.is_active = true;
-        this.created_at = obj.created_at || currDate;
+        this.created_at = obj.created_at || new Date().toISOString().replace("T", " ").split(".")[0];
         this.updated_at = obj.updated_at || null;
     }
 }

@@ -18,12 +18,13 @@ class user {
             this.is_active = false,
             this.is_deleted = false,
             this.deleted_at = obj.deleted_at || null,
-            this.created_at = obj.created_at || currDate,
+            this.created_at = obj.created_at || new Date().toISOString().replace("T", " ").split(".")[0],
             this.updated_at = obj.updated_at || null
     }
 }
 user.signUp = (data, result) => {
     try {
+        console.log(data);
         const query = `insert into register_user set ?`
         db.query(query, data, (err, sqlresult) => {
             if (err) {

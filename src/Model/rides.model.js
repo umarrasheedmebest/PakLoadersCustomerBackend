@@ -21,7 +21,7 @@ class Rides {
         this.upcoming = obj.upcoming;
         this.completed = obj.completed;
         this.is_active = true;
-        this.created_at = obj.created_at || currDate;
+        this.created_at = obj.created_at || new Date().toISOString().replace("T", " ").split(".")[0];
     }
 }
 
