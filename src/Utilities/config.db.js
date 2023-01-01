@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 
 // const conn = mysql.createPool({
 //   host: "us-cdbr-east-06.cleardb.net",
@@ -18,12 +18,19 @@ const mysql = require('mysql2');
 
 // mysql -hcontainers-us-west-69.railway.app -uroot -pEgtFRv5kLkGM0SlIXz2d --port 7654 --protocol=TCP railway
 
+// const conn = mysql.createPool({
+//   host: "containers-us-west-69.railway.app",
+//   user:"root",
+//   password:"EgtFRv5kLkGM0SlIXz2d", 
+//   database: "railway",
+//   port: 7654 
+// });
 const conn = mysql.createPool({
-  host: "containers-us-west-69.railway.app",
-  user:"root",
-  password:"EgtFRv5kLkGM0SlIXz2d", 
-  database: "railway",
-  port: 7654 
+  host: "sql6.freemysqlhosting.net",
+  user:"sql6587530",
+  password:"c5SHzTvePx", 
+  database: "sql6587530",
+  port: 3306 
 });
 conn.getConnection((err,connection)=>{
   if(err){

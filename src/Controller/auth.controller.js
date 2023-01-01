@@ -24,6 +24,7 @@ const signUp = async (req, res, next) => {
               channel: "sms",
             });
           if (otpResponse) {
+          
             user.signUp(dataObj, (err, signUpResponse) => {
               if (err) {
                 next(err)
