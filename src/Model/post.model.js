@@ -36,7 +36,7 @@ class post {
         this.is_active=true;
         this.is_cancel=false;
         this.cancelled_at=obj.cancelled_at || null;
-        this.created_at=obj.created_at || currDate;
+        this.created_at=obj.created_at || new Date().toISOString().replace("T", " ").split(".")[0];
         this.updated_at=obj.updated_at || null;
     }
 }
