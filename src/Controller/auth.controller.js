@@ -60,7 +60,6 @@ const signIn = async (req, res, next) => {
           next(new Error("Number Not Registered"))
         }
         else {
-          console.log(Response);
           const otpResponse = await client.verify.v2
             .services(TWILIO_SERVICE_SID)
             .verifications.create({
