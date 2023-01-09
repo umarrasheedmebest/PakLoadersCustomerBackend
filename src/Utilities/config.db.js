@@ -27,11 +27,25 @@ const mysql = require('mysql');
 // });
 const conn = mysql.createPool({
   host: "sql6.freemysqlhosting.net",
-  user:"sql6587530",
-  password:"c5SHzTvePx", 
-  database: "sql6587530",
+  user:"sql6589402",
+  password:"ReUMxvl6tj", 
+  database: "sql6589402",
   port: 3306 
 });
+// const conn = mysql.createPool({
+//   host: "localhost",
+//   user:"id20124786_dbpakloaders",
+//   password:"CWkGxJ1r6+E6cdBc", 
+//   database: "id20124786_pakloaders",
+//   port: 3306 
+// });
+// const conn = mysql.createPool({
+//   host: "localhost",
+//   user:"root",
+//   password:"", 
+//   database: "pakloaders",
+//   port: 3306 
+// });
 conn.getConnection((err,connection)=>{
   if(err){
     console.error("error connection:" + err.stack)
