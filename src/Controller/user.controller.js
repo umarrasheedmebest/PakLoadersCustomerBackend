@@ -49,6 +49,7 @@ const updateUser = (req, res, next) => {
     }
 }
 
+
 module.exports = {
     deleteUser,
     getUser,
