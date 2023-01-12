@@ -30,7 +30,7 @@ const signUp = async (req, res, next) => {
                 next(err)
               }
               else {
-                res.status(200).send({ message: "Please Verify OTP", data: signUpResponse.insertId })
+                res.status(200).send({ message: "Please Verify Number", data: signUpResponse.insertId })
               }
             })
           }
