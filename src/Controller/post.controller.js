@@ -10,12 +10,13 @@ const addPost = (req, res, next) => {
             imgObj['image' + (Number(i) + 1)] = imagePath[i];
         }
         const result = imgObj;
+        
         post.checkActivePosts(userId, (err, postsResponse) => {
             if (err) {
                 next(err)
             } else {
                 if (postsResponse[0].id > 0) {
-                    res.status(400).send({ message: "Please Cancel Current Posts To Add New." })
+                    res.status(400).send({ message: "Please Cancel Current Post To Add New." })
                 } else {
                     post.addPostImages(result, userId, (err, ImageResponse) => {
                         if (err) {

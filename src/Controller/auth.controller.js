@@ -5,7 +5,7 @@ const { TWILIO_SERVICE_SID, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.en
 const client = require("twilio")(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, {
   lazyLoading: true
 });
-
+ 
 const signUp = async (req, res, next) => {
   const { number, full_name } = req.body;
   try {

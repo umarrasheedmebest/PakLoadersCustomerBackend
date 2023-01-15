@@ -46,7 +46,6 @@ post.addPost=(data,postId,result)=>{
         const query= `update post set  `+ Object.keys(data).map(key=> `${key} = ?`).join(", ") +` 
         ,created_at='${new Date().toISOString().replace("T", " ").split(".")[0]}' where ?`
         const parameters = [...Object.values(data),{id:postId}]
-       
         db.query(query,parameters,(err,sqlresult)=>{
             if(err){
                 result(err,undefined)
@@ -62,6 +61,7 @@ post.addPost=(data,postId,result)=>{
 post.addPostImages=(data,userId,result)=>{
     try {
         const query= `insert into post set ? , user_id=${userId}`;
+
         db.query(query,data,(err,sqlresult)=>{
             if(err){
                 result(err,undefined)
