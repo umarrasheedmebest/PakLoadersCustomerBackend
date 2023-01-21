@@ -15,7 +15,7 @@ class user {
         this.full_name = obj.full_name,
             this.number = obj.number,
             this.user_image = obj.user_image,
-            this.is_active = false,
+            this.is_active = true,
             this.is_deleted = false,
             this.deleted_at = obj.deleted_at || null,
             this.created_at = obj.created_at || new Date().toISOString().replace("T", " ").split(".")[0],
@@ -25,6 +25,7 @@ class user {
 user.signUp = (data, result) => {
     try {
         const query = `insert into register_user set ?`
+        console.log(data,query);
         db.query(query, data, (err, sqlresult) => {
             if (err) {
                 result(err, undefined)

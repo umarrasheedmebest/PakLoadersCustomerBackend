@@ -89,6 +89,7 @@ const singlePost = (req, res, next) => {
     }
 }
 
+
 module.exports = {
     addPost,
     cancelPost,
