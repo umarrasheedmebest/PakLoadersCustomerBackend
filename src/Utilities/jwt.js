@@ -5,9 +5,9 @@ const signAccessToken = async (userID) => {
     const payload = {};
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const options = {
-      expiresIn: "30h",
+      expiresIn: "9999999999999999999h",
       issuer: "PakLoaders",
-      audience: userID,
+      audience: userID.toString(),
     };
     JWT.sign(payload, secret, options, (err, token) => {
       if (err) {
@@ -25,7 +25,7 @@ const forgetPassAccessToken = (email) => {
     };
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const options = {
-      expiresIn: "30h",
+      expiresIn: "24",
       issuer: "PakLoaders",
       audience: email,
     };
@@ -39,10 +39,10 @@ const forgetPassAccessToken = (email) => {
 };
 
 const verifyAccessToken = (req, res, next) => {
-  if (!req.cookies.accessToken) {
+  if (!req.headers.authorization) {
     return next(new Error("Unauthorized error"));
   }
-  const authHeader = req.cookies.accessToken;
+  const authHeader = req.headers.authorization;
   const bearerToken = authHeader.split(" ");
   const token = bearerToken[1];
   JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
@@ -70,12 +70,45 @@ const verifyAccessToken = (req, res, next) => {
   });
 };
 
+
+// const verifyAccessToken = (req, res, next) => {
+//   if (!req.cookies.accessToken) {
+//     return next(new Error("Unauthorized error"));
+//   }
+//   const authHeader = req.cookies.accessToken;
+//   const bearerToken = authHeader.split(" ");
+//   const token = bearerToken[1];
+//   JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, payload) => {
+//     if (err) {
+//       if (err.name === "TokenExpiredError") {
+//         if (!req.headers["authorization"])
+//           return next(new Error("Unauthorized error"));
+//         const authHeader1 = req.headers["authorization"];
+//         const bearerToken1 = authHeader1.split(" ");
+//         const token1 = bearerToken1[1];
+//         const data1 = await verifyRefreshToken(token1);
+//         req.payload = { aud: data1 };
+//         return next();
+//       }
+//       if (err.name === "JsonWebTokenError") {
+//         return next(new Error("Unauthorized"));
+//       } else {
+
+//         return next(new Error(err.message));
+//       }
+//     } else {
+//       req.payload = payload;
+//       next();
+//     }
+//   });
+// };
+
 const signRefreshToken = (userID) => {
   return new Promise((resolve, reject) => {
     const payload = {};
     const secret = process.env.REFRESH_TOKEN_SECRET;
     const options = {
-      expiresIn: "1y",
+      expiresIn: "9999999999999999999y",
       issuer: "PakLoaders",
       audience: userID,
     };
