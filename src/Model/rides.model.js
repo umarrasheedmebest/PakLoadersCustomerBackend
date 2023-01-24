@@ -55,7 +55,6 @@ Rides.acceptBid = (bidId, result) => {
                                 const time = new Date().toLocaleTimeString().split(" ")[0];
                                 const currDate = date + " " + time;
                                 query = `insert into rides set bid_id=${bidId},upcoming = 1 , created_at= '${currDate}'`
-                                console.log(query);
                                 conn.query(query, (err, ridesResult) => {
                                     if (err) {
                                         conn.rollback(() => {

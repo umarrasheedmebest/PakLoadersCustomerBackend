@@ -1,13 +1,22 @@
 const mysql = require('mysql');
 
+// umer rasheed credentials
+
+// const conn = mysql.createPool({
+//   host: "sql6.freemysqlhosting.net",
+//   user:"sql6590784",
+//   password:"UepK2CveRe", 
+//   database: "sql6590784",
+//   port: 3306 
+// });
+
 const conn = mysql.createPool({
-  host: "sql6.freemysqlhosting.net",
-  user:"sql6590784",
-  password:"UepK2CveRe", 
-  database: "sql6590784",
+  host: "sql12.freemysqlhosting.net",
+  user:"sql12593054",
+  password:"dGc9nax4GF", 
+  database: "sql12593054",
   port: 3306 
 });
-// 
 // const conn = mysql.createPool({
 //   host: "localhost",
 //   user:"root",
