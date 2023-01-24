@@ -25,7 +25,6 @@ class user {
 user.signUp = (data, result) => {
     try {
         const query = `insert into register_user set ?`
-        console.log(data,query);
         db.query(query, data, (err, sqlresult) => {
             if (err) {
                 result(err, undefined)
