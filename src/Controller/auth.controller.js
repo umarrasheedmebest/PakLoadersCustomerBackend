@@ -72,7 +72,6 @@ smsPromise.then(() => {
 
 }
 
-
   }
         else {
           next(new Error("Number Already Registered"));
