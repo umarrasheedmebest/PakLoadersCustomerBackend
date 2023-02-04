@@ -1,8 +1,11 @@
 const { post } = require('../Model/post.model')
+const pushNotification = require('../Utilities/pushNotifications')
 
 const addPost = (req, res, next) => {
     try {
         const userId = req.params.id
+        const deviceToken=req.body.deviceToken
+        const mobileNumber=req.body.mobileNumber
         const data = req.body;
         const imagePath = req.files.map((i) => (i.filename));
         const imgObj = new Object();
@@ -10,6 +13,9 @@ const addPost = (req, res, next) => {
             imgObj['image' + (Number(i) + 1)] = imagePath[i];
         }
         const result = imgObj;
+        
+        if(userId && deviceToken && mobileNumber){
+
         
         post.checkActivePosts(userId, (err, postsResponse) => {
             if (err) {
@@ -27,7 +33,13 @@ const addPost = (req, res, next) => {
                                     if (err) {
                                         next(err)
                                     } else {
-                                        res.status(200).send({ message: "Post Added Successfully.", data: response })
+                                        pushNotification(deviceToken,mobileNumber, async(err,response)=>{
+                                            if(err){
+                                                next(err)
+                                            }else{
+                                                res.status(200).send({ message: "Post Added Successfully.", data: response })
+                                            }
+                                        });
                                     }
                                 })
                             }
@@ -36,6 +48,9 @@ const addPost = (req, res, next) => {
                 }
             }
         })
+    }else{
+        res.status(404).send({message:"Missing required Parameters"})
+    }
     } catch (error) {
         next(error)
     }
@@ -45,13 +60,18 @@ const cancelPost = (req, res, next) => {
 
     try {
         const postId = req.params.id
-        post.cancelPost(postId, (err, cancelresponse) => {
-            if (err) {
-                next(err)
-            } else {
-                res.status(200).send({ message: "Post Cancelled Successfully." })
-            }
-        })
+        if(postId){
+
+            post.cancelPost(postId, (err, cancelresponse) => {
+                if (err) {
+                    next(err)
+                } else {
+                    res.status(200).send({ message: "Post Cancelled Successfully." })
+                }
+            })
+        }else{
+            res.status(404).send({message:"Missing Post ID"})
+        }
     } catch (error) {
         next(error)
     }
@@ -61,13 +81,19 @@ const allPost = (req, res, next) => {
 
     try {
         const userId = req.params.id
-        post.allPost(userId, (err,response) => {
-            if (err) {
-                next(err)
-            } else {
-                res.status(200).send(response)
-            }
-        })
+        if(userId){
+
+            post.allPost(userId, (err,response) => {
+                if (err) {
+                    next(err)
+                } else {
+                    res.status(200).send(response)
+                }
+            })
+        }else{
+        res.status(404).send({message:"Missing User ID"})
+
+        }
     } catch (error) {
         next(error)
     }
@@ -77,13 +103,19 @@ const singlePost = (req, res, next) => {
 
     try {
         const postId = req.params.id
-        post.singlePost(postId, (err,response) => {
-            if (err) {
-                next(err)
-            } else {
-                res.status(200).send(response)
-            }
-        })
+        if(postId){
+
+            post.singlePost(postId, (err,response) => {
+                if (err) {
+                    next(err)
+                } else {
+                    res.status(200).send(response)
+                }
+            })
+        }else{
+        res.status(404).send({message:"Missing Post ID"})
+
+        }
     } catch (error) {
         next(error)
     }

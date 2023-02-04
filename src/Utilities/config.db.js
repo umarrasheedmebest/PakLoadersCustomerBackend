@@ -10,13 +10,23 @@ const mysql = require('mysql');
 //   port: 3306 
 // });
 
+// const conn = mysql.createPool({
+//   host: "sql12.freemysqlhosting.net",
+//   user:"sql12593054",
+//   password:"dGc9nax4GF", 
+//   database: "sql12593054",
+//   port: 3306 
+// });
+
+// umer farooq account creds
 const conn = mysql.createPool({
   host: "sql12.freemysqlhosting.net",
-  user:"sql12593054",
-  password:"dGc9nax4GF", 
-  database: "sql12593054",
+  user:"sql12595503",
+  password:"T6dVQT7i1u", 
+  database: "sql12595503",
   port: 3306 
 });
+
 // const conn = mysql.createPool({
 //   host: "localhost",
 //   user:"root",
