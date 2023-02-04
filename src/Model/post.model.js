@@ -43,6 +43,7 @@ class post {
 
 post.addPost=(data,postId,result)=>{
     try {
+        
         const query= `update post set  `+ Object.keys(data).map(key=> `${key} = ?`).join(", ") +` 
         ,created_at='${new Date().toISOString().replace("T", " ").split(".")[0]}' where ?`
         const parameters = [...Object.values(data),{id:postId}]
@@ -60,13 +61,28 @@ post.addPost=(data,postId,result)=>{
 }
 post.addPostImages=(data,userId,result)=>{
     try {
-        const query= `insert into post set ? , user_id=${userId}`;
-
-        db.query(query,data,(err,sqlresult)=>{
+        const findUserQuery=`SELECT * FROM register_user WHERE id=${userId} AND is_deleted=0 AND is_active=1`
+                db.query(findUserQuery,data,(err,sqlresult)=>{
             if(err){
                 result(err,undefined)
             }else{
-                result(undefined,sqlresult)
+                if(sqlresult.length > 0){
+        const query= `insert into post set ? , user_id=${userId}`;
+        db.query(query,data,(err,sqlresult)=>{
+if(err){
+    result(err,undefined)
+}else{
+    result(undefined,sqlresult)
+
+}
+        })
+
+                }else{
+                    result({ 
+                        status: 404,
+                        message: "Provided User ID is incorrect"
+                    })
+                }
             }
         })
     } catch (error) {
@@ -76,14 +92,22 @@ post.addPostImages=(data,userId,result)=>{
 
 post.checkActivePosts=(userId,result)=>{
     try {
-        const query= `SELECT COUNT(id) as id FROM post WHERE is_active=1 && is_cancel=0 && user_id = ${userId}`;
-        db.query(query,(err,sqlresult)=>{
-            if(err){
-                result(err,undefined)
-            }else{
-                result(undefined,sqlresult)
-            }
-        })
+        if(userId){
+
+            const query= `SELECT COUNT(id) as id FROM post WHERE is_active=1 && is_cancel=0 && user_id = ${userId}`;
+            db.query(query,(err,sqlresult)=>{
+                if(err){
+                    result(err,undefined)
+                }else{
+                    result(undefined,sqlresult)
+                }
+            })
+        }else{
+            result( { "error": {
+                "status": 404,
+                "message": "Missing required parameter"
+            }})
+        }
     } catch (error) {
         result(error,undefined)
     }
