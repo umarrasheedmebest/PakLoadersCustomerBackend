@@ -14,8 +14,6 @@ const addPost = (req, res, next) => {
         }
         const result = imgObj;
         
-        if(userId && deviceToken && mobileNumber){
-
         
         post.checkActivePosts(userId, (err, postsResponse) => {
             if (err) {
@@ -33,13 +31,13 @@ const addPost = (req, res, next) => {
                                     if (err) {
                                         next(err)
                                     } else {
-                                        pushNotification(deviceToken,mobileNumber, async(err,response)=>{
-                                            if(err){
-                                                next(err)
-                                            }else{
+                                        // pushNotification(deviceToken,mobileNumber, async(err,response)=>{
+                                        //     if(err){
+                                        //         next(err)
+                                        //     }else{
                                                 res.status(200).send({ message: "Post Added Successfully.", data: response })
-                                            }
-                                        });
+                                            // }
+                                        // });
                                     }
                                 })
                             }
@@ -48,9 +46,7 @@ const addPost = (req, res, next) => {
                 }
             }
         })
-    }else{
-        res.status(404).send({message:"Missing required Parameters"})
-    }
+   
     } catch (error) {
         next(error)
     }
