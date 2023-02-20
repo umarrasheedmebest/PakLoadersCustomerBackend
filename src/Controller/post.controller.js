@@ -1,19 +1,21 @@
 const { post } = require('../Model/post.model')
-const pushNotification = require('../Utilities/pushNotifications')
+const {sendPushNotification} = require('../Utilities/pushNotifications')
 
 const addPost = (req, res, next) => {
     try {
+        const title='Post added'
+        const body='Look for customer'
         const userId = req.params.id
-        const deviceToken=req.body.deviceToken
         const mobileNumber=req.body.mobileNumber
         const data = req.body;
+        console.log(data);
+        const {deviceToken, ...rest}=data
         const imagePath = req.files.map((i) => (i.filename));
         const imgObj = new Object();
         for (let i in imagePath) {
             imgObj['image' + (Number(i) + 1)] = imagePath[i];
         }
         const result = imgObj;
-        
         
         post.checkActivePosts(userId, (err, postsResponse) => {
             if (err) {
@@ -27,15 +29,22 @@ const addPost = (req, res, next) => {
                             next(err)
                         } else {
                             if (ImageResponse) {
-                                post.addPost(data, ImageResponse.insertId, (err, response) => {
+                                post.addPost(rest, ImageResponse.insertId, (err, response) => {
                                     if (err) {
                                         next(err)
                                     } else {
+sendPushNotification(deviceToken,userId,title,body,async(err,notificationResponse)=>{
+    if(err){
+        next(err)
+    }else{
+
+        res.status(200).send({ message: "Post Added Successfully.", data: response,notificationResponse:notificationResponse })
+    }
+})
                                         // pushNotification(deviceToken,mobileNumber, async(err,response)=>{
                                         //     if(err){
                                         //         next(err)
                                         //     }else{
-                                                res.status(200).send({ message: "Post Added Successfully.", data: response })
                                             // }
                                         // });
                                     }

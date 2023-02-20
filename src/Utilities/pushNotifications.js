@@ -1,33 +1,41 @@
-const fetch = require("node-fetch");
+var admin = require("firebase-admin");
+var fcm = require('fcm-notification');
+var serviceAccount = require("../Utilities/privateFile.json");
+const certPath = admin.credential.cert(serviceAccount);
+var FCM = new fcm(certPath);
 
-const pushNotification = (fcm_tokens,mobileNumber, callback) => {
-  var notification = {
-    title: "test notification",
-    text: "test notification text",
-  };
 
-  var notification_body = {
-    notification: notification,
-    registration_ids: fcm_tokens,
-  };
+sendPushNotification= (token,userId,title,body,result) => {
 
-  fetch("https://fcm.googleapis.com/fcm/send", {
-    method: "POST",
-    headers: {
-      Authorization:
-        "key=" +
-        "BH-JvbzTTaUymkesd9YO-bqjFLjhGrAKNdzq9IZc33hc36kmsSBsq7kafDYoIG-61yofGpN5uhOM4oCf4c0rWB0",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(notification_body),
-  })
-    .then(() => {
-        callback(null, `${mobileNumber} added post just now`);
-    })
-    .catch((err) => {
-        callback(err, null);
-
-    });
+  try{
+      let message = {
+          android: {
+              notification: {
+                  title: title,
+                  body: body,
+              },
+              data: {
+                  user_id: userId
+                }
+          },
+token:token,   
 };
 
-module.exports = pushNotification;
+      FCM.send(message, function(err, resp) {
+          if(err){
+result(err,undefined)     
+
+}else{
+              console.log(resp);
+              result(undefined,resp)
+          }
+      });
+
+  }catch(err){
+      throw err;
+      }
+
+  }
+module.exports={
+  sendPushNotification
+}

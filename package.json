@@ -24,6 +24,8 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "fcm-node": "^1.6.1",
+    "fcm-notification": "^2.0.0",
+    "firebase-admin": "^11.5.0",
     "http": "^0.0.1-security",
     "http-https": "^1.0.0",
     "https": "^1.0.0",
@@ -36,6 +38,8 @@
     "nodemon": "^2.0.20",
     "railway": "^2.0.17",
     "redis": "^4.5.1",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.5.4",
     "speakeasy": "^2.0.0",
     "twilio": "^3.82.1"
   }
