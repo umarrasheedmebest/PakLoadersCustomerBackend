@@ -13,7 +13,12 @@ const userProfileImage = (req, res, next) => {
                     res.status(200).send({ "Image Name": imagePath, Response })
                 }
             })
-        }else{
+        }
+
+        else
+
+        {
+
         res.status(404).send({message:"Missing User ID"})
 
         }

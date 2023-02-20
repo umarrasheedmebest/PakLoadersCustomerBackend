@@ -40,7 +40,7 @@ const forgetPassAccessToken = (email) => {
 
 const verifyAccessToken = (req, res, next) => {
   if (!req.headers.authorization) {
-    return next(new Error("Unauthorized error"));
+    return res.status(401).send({ message: "Unauthorized error" });
   }
   const authHeader = req.headers.authorization;
   const bearerToken = authHeader.split(" ");
@@ -49,7 +49,7 @@ const verifyAccessToken = (req, res, next) => {
     if (err) {
       if (err.name === "TokenExpiredError") {
         if (!req.headers["authorization"])
-          return next(new Error("Unauthorized error"));
+        return res.status(401).send({ message: "Unauthorized error" });
         const authHeader1 = req.headers["authorization"];
         const bearerToken1 = authHeader1.split(" ");
         const token1 = bearerToken1[1];
