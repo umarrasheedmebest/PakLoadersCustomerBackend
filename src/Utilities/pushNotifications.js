@@ -1,6 +1,6 @@
 var admin = require("firebase-admin");
 var fcm = require('fcm-notification');
-var serviceAccount = require("../Utilities/privateFile.json");
+var serviceAccount = require("./privateFile.json");
 const certPath = admin.credential.cert(serviceAccount);
 var FCM = new fcm(certPath);
 
