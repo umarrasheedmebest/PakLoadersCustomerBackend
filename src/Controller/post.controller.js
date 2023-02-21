@@ -8,7 +8,6 @@ const addPost = (req, res, next) => {
         const userId = req.params.id
         const mobileNumber=req.body.mobileNumber
         const data = req.body;
-        console.log(data);
         const {deviceToken, ...rest}=data
         const imagePath = req.files.map((i) => (i.filename));
         const imgObj = new Object();
