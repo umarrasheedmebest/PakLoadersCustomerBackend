@@ -1,4 +1,4 @@
-{
+const privateFile={
   "type": "service_account",
   "project_id": "pakloadercustomerapp",
   "private_key_id": "fc3750857f598450724047924186fc3fcbb29d24",
@@ -10,3 +10,4 @@
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-je7lp%40pakloadercustomerapp.iam.gserviceaccount.com"
 }
+module.exports={privateFile}
