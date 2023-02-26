@@ -52,7 +52,7 @@ user.activeProfile = (userId, result) => {
 }
 user.FindCredendials = (number, result) => {
     try {
-        const query = `SELECT register_user.id,register_user.full_name,register_user.number FROM register_user WHERE register_user.number = ${number}`
+        const query = `SELECT register_user.id,register_user.full_name,register_user.number,register_user.is_active FROM register_user WHERE register_user.is_deleted=0 AND register_user.number = ${number}`
         db.query(query, (err, sqlresult) => {
             if (err) {
                 result(err, undefined)
