@@ -5,8 +5,10 @@ const path = require('path')
 const fs= require('fs')
 const dotenv = require("dotenv");
 const cookieParser = require('cookie-parser');
+const db=require('./src/Utilities/config.db');
 const port = process.env.PORT || 3000;
 dotenv.config();
+
 // logs
 morgan.token('body', (req)=> JSON.stringify(req.body))
 morgan.token('id', (req)=> req.params.id);
