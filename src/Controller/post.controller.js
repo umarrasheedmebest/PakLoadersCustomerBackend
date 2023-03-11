@@ -32,20 +32,29 @@ const addPost = (req, res, next) => {
                                     if (err) {
                                         next(err)
                                     } else {
-sendPushNotification(deviceToken,userId,title,body,async(err,notificationResponse)=>{
-    if(err){
-        next(err)
-    }else{
+                                        post.checkDeviceToken((err,deviceTokenResponse)=>{
+                                            if(err){
+                                                next(err)
+                                            }else{
+                                                const tokens = deviceTokenResponse.map((i) => i.device_token);
+                                                for (let i = 0; i < tokens.length; i++) {
+                                                  const token = tokens[i];
+                                                  sendPushNotification(token, userId, title, body, async (err, notificationResponse) => {
+                                                    if (err) {
+                                                      next(err);
+                                                    } else {
+                                                      console.log(`Notification sent to token ${token}:`, notificationResponse);
+                                                      if (i === tokens.length - 1) {
+                                                        // This is the last iteration of the loop, so send the response to the client
+                                                        res.status(200).send({ message: "Post Added Successfully.", data: response });
+                                                      }
+                                                    }
+                                                  });
+                                                }
+                                            }
+                                        })
 
-        res.status(200).send({ message: "Post Added Successfully.", data: response,notificationResponse:notificationResponse })
-    }
-})
-                                        // pushNotification(deviceToken,mobileNumber, async(err,response)=>{
-                                        //     if(err){
-                                        //         next(err)
-                                        //     }else{
-                                            // }
-                                        // });
+                                       
                                     }
                                 })
                             }

@@ -1,7 +1,7 @@
 const {Bids}=require('../Model/bids.model')
 const { post } = require('../Routes/post.routes')
 
-const allBids=(req,res,next)=>{
+const allBids= async (req,res,next)=>{
 try {
     const userId=req.params.id
     if(userId){

@@ -59,6 +59,22 @@ post.addPost=(data,postId,result)=>{
     }
 
 }
+
+
+post.checkDeviceToken = (result) => {
+    try {
+        const query = `select device_token from driver_device_tokens`
+        db.query(query, (err, sqlresult) => {
+            if (err) {
+                result(err, undefined)
+            } else {
+                result(undefined, sqlresult)
+            }
+        })
+    } catch (error) {
+        result(error, undefined)
+    }
+}
 post.addPostImages=(data,userId,result)=>{
     try {
         const findUserQuery=`SELECT * FROM register_user WHERE id=${userId} AND is_deleted=0 AND is_active=1`

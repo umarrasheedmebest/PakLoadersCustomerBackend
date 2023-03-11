@@ -64,6 +64,37 @@ user.FindCredendials = (number, result) => {
         result(error, undefined)
     }
 }
+user.addDeviceTokens = (userId,deviceToken, result) => {
+    try {
+const query=`select device_token from user_device_tokens where user_id=${userId}`
+
+        db.query(query, (err, sqlresult) => {
+            if (err) {
+                result(err, undefined)
+            } else {
+                if(sqlresult.map((i)=>(i.device_token)).includes(deviceToken)){
+                    result(undefined, 'Device token already exists');
+                }
+         else{
+
+    const deviceTokenQuery=`INSERT INTO user_device_tokens (user_id, device_token,created_at) VALUES (${userId}, '${deviceToken}','${new Date().toISOString().replace("T", " ").split(".")[0]}')`
+
+    db.query(deviceTokenQuery, (err, deviceTokenResult)=>{
+       if(err){
+           result(err,undefined)
+       }
+       else{
+           result(undefined,deviceTokenResult)
+       }
+    })
+}
+                
+            }
+        })
+    } catch (error) {
+        result(error, undefined)
+    }
+}
 user.deleteUser = (userId, result) => {
     try {
         const query = `update  register_user set is_deleted=1, deleted_at='${new Date().toISOString().replace("T", " ").split(".")[0]}' where id= ${userId}`
