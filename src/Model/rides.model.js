@@ -88,6 +88,42 @@ Rides.acceptBid = (bidId, result) => {
     }
 }
 
+Rides.driverDeviceToken = (bidId, result) => {
+    try {
+        const query = `SELECT driver_device_tokens.device_token FROM driver_device_tokens
+        JOIN bids
+        ON driver_device_tokens.driver_id=bids.driver_id
+        WHERE bids.id=${bidId}`
+        db.query(query, (err, sqlresult) => {
+            if (err) {
+                result(err, undefined)
+            } else {
+                result(undefined, sqlresult)
+            }
+        })
+    } catch (error) {
+        result(error, undefined)
+    }
+}
+Rides.userName = (bidId, result) => {
+    try {
+        const query = `SELECT register_user.id,register_user.full_name,post.pickup_date,post.pickup_time FROM register_user
+        JOIN post
+        ON register_user.id=post.user_id
+        JOIN bids
+        ON post.id=bids.post_id
+        WHERE bids.id=${bidId}`
+        db.query(query, (err, sqlresult) => {
+            if (err) {
+                result(err, undefined)
+            } else {
+                result(undefined, sqlresult)
+            }
+        })
+    } catch (error) {
+        result(error, undefined)
+    }
+}
 Rides.upcomingRide = (userId, result) => {
     try {
         const query = `SELECT post.pickup_address,post.dropoff_address,post.pickup_date,post.pickup_time,
