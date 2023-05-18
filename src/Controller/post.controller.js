@@ -41,6 +41,7 @@ const addPost = (req, res, next) => {
                                                   const token = tokens[i];
                                                   sendPushNotification(token, userId, title, body, async (err, notificationResponse) => {
                                                     if (err) {
+                                                        console.log("==== ERROR in push notification====",err);
                                                       next(err);
                                                     } else {
                                                       console.log(`Notification sent to token ${token}:`, notificationResponse);
