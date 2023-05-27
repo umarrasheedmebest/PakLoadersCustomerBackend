@@ -7,7 +7,7 @@ const addPost = (req, res, next) => {
         const body='Look for customer'
         const userId = req.params.id
         const mobileNumber=req.body.mobileNumber
-        const data = req.body;
+        const data = req.body
         const {deviceToken, ...rest}=data
         const imagePath = req.files.map((i) => (i.filename));
         const imgObj = new Object();
