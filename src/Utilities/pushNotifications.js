@@ -16,7 +16,7 @@ sendPushNotification= (token,userId,title,body,result) => {
                   body: body,
               },
               data: {
-                  user_id: userId
+                  user_id: userId.toString(),
                 }
           },
 token:token,   
